@@ -6,7 +6,7 @@
 {% load cache %}
     <main>
       <h1>Последние обновления на сайте</h1> 
-      {% cache 20 index_page %}
+      {% cache 20 index_page page_obj.number %}
         {% for post in page_obj %}
           <ul>
             <li>
