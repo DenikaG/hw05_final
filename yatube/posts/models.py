@@ -66,6 +66,9 @@ class Comment(models.Model):
     def __str__(self):
         return self.text
 
+    class Meta:
+        ordering = ['-created']
+
 
 class Follow(models.Model):
     user = models.ForeignKey(
@@ -80,4 +83,9 @@ class Follow(models.Model):
     )
 
     class Meta:
-        UniqueConstraint(fields=['user', 'author'], name='unique_follower')
+        constraints = [
+            UniqueConstraint(
+                fields=['user', 'author'],
+                name='unique_follower'
+            )
+        ]

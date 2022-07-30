@@ -12,7 +12,7 @@ class PostModelTest(TestCase):
         super().setUpClass()
         cls.user = User.objects.create_user(username='auth')
         cls.group = Group.objects.create(
-            title='Тестовая группа',
+            title='Группа',
             slug='Тестовый слаг',
             description='Тестовое описание',
         )
@@ -34,7 +34,8 @@ class PostModelTest(TestCase):
         post = PostModelTest.post
         field_verboses = {
             'text': 'Текст поста',
-            'author': 'Автор'
+            'author': 'Автор',
+            'group': 'Группа'
         }
         for field, expected_value in field_verboses.items():
             with self.subTest(field=field):
@@ -46,6 +47,7 @@ class PostModelTest(TestCase):
         post = PostModelTest.post
         field_help_texts = {
             'text': 'Введите текст поста',
+            'group': 'Группа, к которой будет относиться пост',
         }
         for field, expected_value in field_help_texts.items():
             with self.subTest(field=field):

@@ -23,7 +23,7 @@ def index(request):
 
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
-    post_list = group.posts.all()
+    post_list = group.posts.all().select_related('author')
     paginator = Paginator(post_list, Clip)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -62,7 +62,9 @@ def profile(request, username):
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     form = CommentForm()
-    comments = Comment.objects.select_related('post').filter(post=post)
+    comments = Comment.objects.select_related(
+        'post', 'author'
+    ).filter(post=post)
     context = {
         'post': post,
         'form': form,
