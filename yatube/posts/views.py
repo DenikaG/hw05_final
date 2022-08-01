@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
-from .models import Post, Group, Comment, Follow
+from .models import Post, Group, Follow
 from django.contrib.auth import get_user_model
 from .forms import PostForm, CommentForm
 from django.contrib.auth.decorators import login_required
@@ -62,9 +62,7 @@ def profile(request, username):
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     form = CommentForm()
-    comments = Comment.objects.select_related(
-        'post', 'author'
-    ).filter(post=post)
+    comments = post.comments.select_related('post', 'author')
     context = {
         'post': post,
         'form': form,

@@ -1,9 +1,6 @@
-from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from ..models import Group, Post
-
-User = get_user_model()
+from ..models import Group, Post, User
 
 
 class PostModelTest(TestCase):
@@ -35,21 +32,37 @@ class PostModelTest(TestCase):
         field_verboses = {
             'text': 'Текст поста',
             'author': 'Автор',
-            'group': 'Группа'
         }
         for field, expected_value in field_verboses.items():
             with self.subTest(field=field):
                 self.assertEqual(
                     post._meta.get_field(field).verbose_name, expected_value)
+        group = PostModelTest.group
+        field_verboses = {
+            'title': 'title',
+            'slug': 'slug',
+            'description': 'description',
+        }
+        for field, expected_value in field_verboses.items():
+            with self.subTest(field=field):
+                self.assertEqual(
+                    group._meta.get_field(field).verbose_name, expected_value)
 
     def test_help_text(self):
         """help_text в полях совпадает с ожидаемым."""
         post = PostModelTest.post
         field_help_texts = {
             'text': 'Введите текст поста',
-            'group': 'Группа, к которой будет относиться пост',
         }
         for field, expected_value in field_help_texts.items():
             with self.subTest(field=field):
                 self.assertEqual(
                     post._meta.get_field(field).help_text, expected_value)
+        group = PostModelTest.group
+        field_help_texts = {
+            'title': '',
+        }
+        for field, expected_value in field_help_texts.items():
+            with self.subTest(field=field):
+                self.assertEqual(
+                    group._meta.get_field(field).help_text, expected_value)
